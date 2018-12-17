@@ -1,0 +1,7 @@
+## Ignore files in tools directory
+tools/
+
+## Ignore file with suffix .cmp .out .tst
+*.cmp
+*.out
+*.tst
