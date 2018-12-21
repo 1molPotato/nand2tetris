@@ -16,5 +16,11 @@ CHIP PC {
     OUT out[16];
 
     PARTS:
-    // Put your code here:
+    // edited from: https://github.com/havivha/Nand2Tetris/blob/master/03/a/PC.hdl
+    Inc16(in=regout, out=plusone);
+	Mux16(a=plusone, b=in, sel=load, out=loadout);
+	Mux16(a=loadout, b=false, sel=reset, out=toload);
+	Or(a=load, b=reset, out=loadorreset);
+	Or(a=loadorreset, b=inc, out=loadflag);
+    Register(in=toload, load=loadflag, out=regout, out=out);
 }
