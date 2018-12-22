@@ -27,6 +27,8 @@
     D=A
     @n
     M=D // n = 8192
+    @current
+    M=0 // current color in screen is white
 
 (INFLOOP)
     // reset i and addr
@@ -38,54 +40,45 @@
     M=D // addr = SCREEN
     @KBD
     D=M
-    @WHITEN
-    D;JEQ // if RAM[KBD] = 0 goto WHITEN
-// else BLACKEN the screen
-(BLACEN)
-    @SCREEN
-    D=M+1
-    @INFLOOP
-    D;JEQ // if RAM[SCREEN] = -1 goto INFLOOP (no need to write black)
+    @SETWHITE
+    D;JEQ // if RAM[KBD] = 0 goto SETWHITEN
 
-(BLACKENLOOP)
+    @current
+    M=-1 // set black
+    @WRITECOLOR
+    0;JMP
+
+(SETWHITE)
+    @current
+    M=0
+
+(WRITECOLOR)
+    @current
+    D=M
+    @SCREEN
+    D=D-M
+    @INFLOOP
+    D;JEQ // if RAM[SCREEN] = current goto INFLOOP (no need to change color)
+
+(LOOP)
     @i
     D=M
     @n
     D=D-M
     @INFLOOP
     D;JGE // if i >= n goto INFLOOP
+    @current
+    D=M
     @addr
     A=M
-    M=-1 // write black to 16 pixels in addr
+    M=D // write color to 16 pixels in addr
     @addr
     M=M+1 // addr = addr + 1
     @i
     M=M+1
-    @BLACKENLOOP
+    @LOOP
     0;JMP // goto WHITENLOOP
 
-(WHITEN)
-    @SCREEN
-    D=M
-    @INFLOOP 
-    D;JEQ // if RAM[SCREEN] = 0 goto INFLOOP (no need to write white)
-
-(WHITENLOOP)
-    @i
-    D=M
-    @n
-    D=D-M
-    @INFLOOP
-    D;JGE // if i >= n goto INFLOOP
-    @addr
-    A=M
-    M=0 // write white to 16 pixels in addr
-    @addr
-    M=M+1 // addr = addr + 1
-    @i
-    M=M+1
-    @WHITENLOOP
-    0;JMP // goto WHITENLOOP
 
 
 
