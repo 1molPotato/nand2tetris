@@ -5,3 +5,4 @@ tools/
 *.cmp
 *.out
 *.tst
+*.hack
