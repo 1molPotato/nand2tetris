@@ -40,4 +40,27 @@ CHIP CPU {
 
     PARTS:
     // Put your code here:
+    // instruction[15] decides whether it's an A-instruction or a C-instruction
+    // if it's an A-instruction, set the A register to instruction, 
+    // ALU is not supposed to work
+    
+    And(a=instruction[15], b=instruction[4], out=loadD);
+    DRegister(in=aluOut, load=loadD, out=x);
+    
+    Mux16(a=instruction, b=aluOut, sel=instruction[15], out=aRegIn);
+    
+    Not(in=instruction[15], out=isA);
+    Or(a=instruction[5], b=isA, out=loadA);
+    ARegister(in=aRegIn, load=loadA, out=aRegOut, out[0..14]=addressM);
+
+    Mux16(a=aRegOut, b=inM, sel=instruction[12], out=y);
+    ALU(x=x, y=y, zx=instruction[11], nx=instruction[10], zy=instruction[9], ny=instruction[8], f=instruction[7], no=instruction[6], out=aluOut, out=outM, zr=zr, ng=ng);
+
+    And(a=instruction[15], b=instruction[3], out=writeM); // if instruction[15], d3 is writeM
+
+    Mux(a=instruction[0], b=instruction[2], sel=ng, out=t1);
+    Mux(a=instruction[1], b=false, sel=ng, out=t2);
+    Mux(a=t1, b=t2, sel=zr, out=load1);
+    And(a=instruction[15], b=load1, out=loadPC); // as long as instruction[15] is false, loadPC is false (no jump)
+    PC(in=aRegOut, load=loadPC, inc=true, reset=reset, out[0..14]=pc);
 }
