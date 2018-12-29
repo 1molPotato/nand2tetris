@@ -25,7 +25,7 @@ namespace HackAssembler
             using (var writer = new StreamWriter(outputFile))
             {
                 var symbolTable = new SymbolTable();
-                //FirstPass(inputFile, symbolTable);
+                FirstPass(inputFile, symbolTable);
                 MainProcess(writer, inputFile, symbolTable);                
             }
         }
@@ -34,19 +34,14 @@ namespace HackAssembler
         {
             using (var parser = new Parser(inputFile))
             {
-                int counter = 16;
+                int counter = 0;
                 while (parser.HasMoreCommands())
                 {
                     parser.Advance();
-                    if (parser.CommandType() == 1)
-                        continue; // skip when come across C_COMMAND
-                    int address = 0;
-                    string symbol = parser.GetSymbol();
-                    if (parser.CommandType() == 0)                                            
-                        if (Int32.TryParse(symbol, out address))
-                            continue; // skip if it is a number
-                    if (!symbolTable.Contains(symbol))
-                        symbolTable.AddEntry(symbol, counter++);                    
+                    if (parser.CommandType() == 2)
+                        symbolTable.AddEntry(parser.GetSymbol(), counter);
+                    else
+                        counter++;                  
                 }
             }
         }
@@ -56,14 +51,24 @@ namespace HackAssembler
             using (var parser = new Parser(inputFile))
             {
                 string line = "";
+                int counter = 16;
                 while (parser.HasMoreCommands())
                 {
                     parser.Advance();
                     if (parser.CommandType() == 0)
                     {
                         int address = 0;
-                        if (!Int32.TryParse(parser.GetSymbol(), out address))                        
-                            address = symbolTable.GetAddress(parser.GetSymbol());                            
+                        string symbol = parser.GetSymbol();
+                        if (!Int32.TryParse(symbol, out address))
+                        {
+                            if (symbolTable.Contains(symbol))
+                                address = symbolTable.GetAddress(parser.GetSymbol()); 
+                            else
+                            {
+                                address = counter++;
+                                symbolTable.AddEntry(symbol, address);
+                            }                                
+                        }                                                                               
                         line = Convert.ToString(address, 2).PadLeft(16, '0');
                     }
                     else if (parser.CommandType() == 1)
@@ -74,7 +79,7 @@ namespace HackAssembler
                         line = string.Format($"111{comp}{dest}{jump}");
                     }
                     else
-                        continue;
+                        continue; // skip labels
                     writer.WriteLine(line);
                 }               
             }
