@@ -1,8 +1,15 @@
-## Ignore files in tools directory
+## Files in tools directory
 tools/
 
-## Ignore file with suffix .cmp .out .tst
+# File with suffix .cmp .out .tst
 *.cmp
 *.out
 *.tst
 *.hack
+
+# Build results
+bin/
+obj/
+
+# vscode configuration
+.vscode/
