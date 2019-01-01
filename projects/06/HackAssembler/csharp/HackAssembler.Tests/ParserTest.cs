@@ -32,8 +32,6 @@ namespace HackAssembler.UnitTests
             using (var parser = new Parser(testFile))
             {
                 Assert.True(parser.HasMoreCommands());
-                parser.Advance();
-                Assert.False(parser.HasMoreCommands());
             }
         }
 

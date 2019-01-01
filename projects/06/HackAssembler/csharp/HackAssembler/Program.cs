@@ -18,8 +18,7 @@ namespace HackAssembler
             string inputFile = "", outputFile = "";
             if (_args.Length != 1)
                 throw new ArgumentException("Use the assembler like: dotnet run <inputFile>");
-            inputFile = _args[0];
-            Console.WriteLine(Directory.GetCurrentDirectory());
+            inputFile = _args[0];            
             outputFile = Path.GetDirectoryName(inputFile) + "/" +  Path.GetFileNameWithoutExtension(inputFile) + ".hack";
             Console.WriteLine(outputFile);
             using (var writer = new StreamWriter(outputFile))
@@ -38,7 +37,7 @@ namespace HackAssembler
                 while (parser.HasMoreCommands())
                 {
                     parser.Advance();
-                    if (parser.CommandType() == 2)
+                    if (parser.CommandType() == Parser.L_COMMAND)
                         symbolTable.AddEntry(parser.GetSymbol(), counter);
                     else
                         counter++;                  
@@ -55,7 +54,7 @@ namespace HackAssembler
                 while (parser.HasMoreCommands())
                 {
                     parser.Advance();
-                    if (parser.CommandType() == 0)
+                    if (parser.CommandType() == Parser.A_COMMAND)
                     {
                         int address = 0;
                         string symbol = parser.GetSymbol();
@@ -71,12 +70,12 @@ namespace HackAssembler
                         }                                                                               
                         line = Convert.ToString(address, 2).PadLeft(16, '0');
                     }
-                    else if (parser.CommandType() == 1)
+                    else if (parser.CommandType() == Parser.C_COMMAND)
                     {
                         var dest = Code.Dest(parser.GetDest());
                         var comp = Code.Comp(parser.GetComp());
                         var jump = Code.Jump(parser.GetJump());
-                        line = string.Format($"111{comp}{dest}{jump}");
+                        line = "111" + comp + dest + jump;
                     }
                     else
                         continue; // skip labels

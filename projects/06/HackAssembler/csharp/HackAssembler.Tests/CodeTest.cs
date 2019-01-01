@@ -1,6 +1,7 @@
 using System;
 using Xunit;
 using HackAssembler;
+using System.Collections.Generic;
 
 namespace HackAssembler.UnitTests
 {
@@ -30,64 +31,20 @@ namespace HackAssembler.UnitTests
         [Fact]
         public void CompTest()
         {
-            string comp = "0";
-            Assert.Equal("0101010", Code.Comp(comp));
-            comp = "1";
-            Assert.Equal("0111111", Code.Comp(comp));
-            comp = "-1";
-            Assert.Equal("0111010", Code.Comp(comp));
-            comp = "D";
-            Assert.Equal("0001100", Code.Comp(comp));
-            comp = "A";
-            Assert.Equal("0110000", Code.Comp(comp));
-            comp = "M";
-            Assert.Equal("1110000", Code.Comp(comp));
-            comp = "!D";
-            Assert.Equal("0001101", Code.Comp(comp));
-            comp = "!A";
-            Assert.Equal("0110001", Code.Comp(comp));
-            comp = "!M";
-            Assert.Equal("1110001", Code.Comp(comp));
-            comp = "-D";
-            Assert.Equal("0001111", Code.Comp(comp));
-            comp = "-A";
-            Assert.Equal("0110011", Code.Comp(comp));
-            comp = "-M";
-            Assert.Equal("1110011", Code.Comp(comp));
-            comp = "D+1";
-            Assert.Equal("0011111", Code.Comp(comp));
-            comp = "A+1";
-            Assert.Equal("0110111", Code.Comp(comp));
-            comp = "M+1";
-            Assert.Equal("1110111", Code.Comp(comp));
-            comp = "D-1";
-            Assert.Equal("0001110", Code.Comp(comp));
-            
-            comp = "A-1";
-            Assert.Equal("0110010", Code.Comp(comp));
-            comp = "D+A";
-            Assert.Equal("0000010", Code.Comp(comp));
-            comp = "D-A";
-            Assert.Equal("0010011", Code.Comp(comp));
-            comp = "A-D";
-            Assert.Equal("0000111", Code.Comp(comp));
-            comp = "D&A";
-            Assert.Equal("0000000", Code.Comp(comp));
-            comp = "D|A";
-            Assert.Equal("0010101", Code.Comp(comp));
-            
-            comp = "M-1";
-            Assert.Equal("1110010", Code.Comp(comp));
-            comp = "D+M";
-            Assert.Equal("1000010", Code.Comp(comp));
-            comp = "D-M";
-            Assert.Equal("1010011", Code.Comp(comp));
-            comp = "M-D";
-            Assert.Equal("1000111", Code.Comp(comp));
-            comp = "D&M";
-            Assert.Equal("1000000", Code.Comp(comp));
-            comp = "D|M";
-            Assert.Equal("1010101", Code.Comp(comp));
+            var compTable = new Dictionary<string, string>()
+            {
+                {"0", "0101010"}, {"1", "0111111"}, {"-1", "0111010"}, {"D", "0001100"},
+                {"A", "0110000"}, {"M", "1110000"}, {"!D", "0001101"}, {"!A", "0110001"},
+                {"!M", "1110001"}, {"-D", "0001111"}, {"-A", "0110011"}, {"-M", "1110011"},
+                {"D+1", "0011111"}, {"A+1", "0110111"}, {"M+1", "1110111"}, {"D-1", "0001110"},
+                {"A-1", "0110010"}, {"D+A", "0000010"}, {"D-A", "0010011"}, {"A-D", "0000111"},
+                {"D&A", "0000000"}, {"D|A", "0010101"}, {"M-1", "1110010"}, {"D+M", "1000010"},
+                {"D-M", "1010011"}, {"M-D", "1000111"}, {"D&M", "1000000"}, {"D|M", "1010101"}
+            };
+            foreach (var comp in compTable)
+            {
+                Assert.Equal(comp.Value, Code.Comp(comp.Key));
+            }
         }
 
         [Fact]

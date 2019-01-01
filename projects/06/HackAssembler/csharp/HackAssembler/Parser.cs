@@ -6,6 +6,9 @@ namespace HackAssembler
 {
     public class Parser : IDisposable
     {
+        public static readonly int A_COMMAND = 0;
+        public static readonly int C_COMMAND = 1;
+        public static readonly int L_COMMAND = 2;
         private readonly string _input = "test.asm";
         private readonly StreamReader _reader;
         private string _current;
@@ -58,36 +61,36 @@ namespace HackAssembler
         public int CommandType()
         {
             if (_current.StartsWith('@'))
-                return 0;
+                return A_COMMAND;
             else if (_current.StartsWith('('))
-                return 2;
-            return 1;
+                return L_COMMAND;
+            return C_COMMAND;
         }
 
         public string GetSymbol()
         {
-            if (CommandType() == 0 || CommandType() == 2)
+            if (CommandType() == A_COMMAND || CommandType() == L_COMMAND)
                 return _symbol;
             throw new InvalidOperationException("GetSymbol() should be called only when CommandType() is A_COMMAND or L_COMMAND"); 
         }
 
         public string GetDest()
         { 
-            if (CommandType() == 1)
+            if (CommandType() == C_COMMAND)
                 return _dest;
             throw new InvalidOperationException("GetDest() should be called only when CommandType() is C_COMMAND");            
         }
 
         public string GetComp()
         {
-            if (CommandType() == 1)
+            if (CommandType() == C_COMMAND)
                 return _comp;
             throw new InvalidOperationException("GetComp() should be called only when CommandType() is C_COMMAND");              
         }
 
         public string GetJump()
         {
-            if (CommandType() == 1)
+            if (CommandType() == C_COMMAND)
                 return _jump;
             throw new InvalidOperationException("GetJump() should be called only when CommandType() is C_COMMAND"); 
         }
@@ -118,7 +121,7 @@ namespace HackAssembler
         private void ParseCurrent()
         {
             _current = TrimWhiteSpacesAndComments(_reader.ReadLine());
-            if (CommandType() == 1)
+            if (CommandType() == C_COMMAND)
             {
                 _dest = null;
                 _jump = null;
@@ -143,7 +146,7 @@ namespace HackAssembler
                     _jump = parts[1];
                 }
             }
-            else if (CommandType() == 0)
+            else if (CommandType() == A_COMMAND)
                 _symbol = _current.Substring(1);
             else
                 _symbol = _current.Substring(1, _current.Length - 2);          
@@ -156,6 +159,5 @@ namespace HackAssembler
                 .Where(c => !Char.IsWhiteSpace(c))
                 .ToArray());
         }
-
     }
 }
