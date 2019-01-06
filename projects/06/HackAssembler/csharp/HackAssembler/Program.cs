@@ -20,7 +20,6 @@ namespace HackAssembler
                 throw new ArgumentException("Use the assembler like: dotnet run <inputFile>");
             inputFile = _args[0];            
             outputFile = Path.GetDirectoryName(inputFile) + "/" +  Path.GetFileNameWithoutExtension(inputFile) + ".hack";
-            Console.WriteLine(outputFile);
             using (var writer = new StreamWriter(outputFile))
             {
                 var symbolTable = new SymbolTable();

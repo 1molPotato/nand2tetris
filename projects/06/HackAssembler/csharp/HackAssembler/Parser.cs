@@ -48,7 +48,7 @@ namespace HackAssembler
         public bool HasMoreCommands()
         {
             SkipWhiteSpaces();
-            return _reader.Peek() > -1;            
+            return _reader.Peek() > -1;                        
         }
 
         public void Advance()
