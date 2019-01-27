@@ -43,6 +43,8 @@ namespace VMTranslator
             Write("@SP");
             Write("M=D"); // SP = 256
             WriteCall("Sys.init", 0);
+            // Write("@Sys.init");
+            // Write("0;JMP");
         }
 
         public void WriteArithmetric(string command)
@@ -109,7 +111,7 @@ namespace VMTranslator
             Write($"// funtion {functionName} {numVars}", false);
             Write($"({functionName})", false);
             for (int i = 0; i < numVars; ++i)
-                WritePush("local", 0); // initializes the local variables to 0s
+                WritePush("constant", 0); // initializes the local variables to 0s
         }
 
         public void WriteCall(string functionName, int numArgs)
@@ -155,7 +157,14 @@ namespace VMTranslator
             Write("@LCL");
             Write("D=M");
             Write("@R13");
-            Write("M=D"); // RAM[13] = LCL
+            Write("M=D"); // endFrame = RAM[13] = LCL
+            Write("@5");
+            Write("D=A");
+            Write("@R13");
+            Write("A=M-D");
+            Write("D=M"); // D = *(endFrame - 5)
+            Write("@R14");
+            Write("M=D"); // retAddr = RAM[14] = *(endFrame - 5)
             Write("@SP");
             Write("A=M-1");
             Write("D=M"); // D = pop()
@@ -176,10 +185,7 @@ namespace VMTranslator
                 Write($"@{ss[i]}");
                 Write("M=D"); // ss[i] = *(endFrame - i - 1)
             }
-            Write("@5");
-            Write("D=A");
-            Write("@R13");
-            Write("A=M-D");
+            Write("@R14");
             Write("A=M");
             Write("0;JMP"); // goto return address
             //_currentFunction = _callerName;
@@ -202,7 +208,7 @@ namespace VMTranslator
                 Write($"@{i}");
                 Write("D=A"); // D = i
             }
-            else if (segment == "temp" || segment == "pointer")
+            else if (segment == "temp" || segment == "pointer" || segment == "static")
             {
                 Write($"@{register}");
                 Write("D=M"); // D = RAM[register]
@@ -226,7 +232,7 @@ namespace VMTranslator
         {
             Write($"// pop {segment} {i}", false);
             string register = RegisterName(segment, i);
-            if (segment == "temp" || segment == "pointer")
+            if (segment == "temp" || segment == "pointer" || segment == "static")
             {
                 Write("@SP");
                 Write("AM=M-1");

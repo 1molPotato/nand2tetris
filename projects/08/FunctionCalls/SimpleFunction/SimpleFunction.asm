@@ -1,22 +1,16 @@
-// funtion SimpleFunction.test definition
+// funtion SimpleFunction.test 2
 (SimpleFunction.test)
-// push local 0
+// push constant 0
 	@0
 	D=A
-	@LCL
-	A=D+M
-	D=M
 	@SP
 	A=M
 	M=D
 	@SP
 	M=M+1
-// push local 0
+// push constant 0
 	@0
 	D=A
-	@LCL
-	A=D+M
-	D=M
 	@SP
 	A=M
 	M=D
@@ -91,10 +85,17 @@
 	D=M
 	A=A-1
 	M=D+M
-// function return
+// function SimpleFunction.test return
 	@LCL
 	D=M
 	@R13
+	M=D
+	@5
+	D=A
+	@R13
+	A=M-D
+	D=M
+	@R14
 	M=D
 	@SP
 	A=M-1
@@ -133,9 +134,6 @@
 	D=M
 	@LCL
 	M=D
-	@5
-	D=A
-	@R13
-	A=M-D
+	@R14
 	A=M
 	0;JMP

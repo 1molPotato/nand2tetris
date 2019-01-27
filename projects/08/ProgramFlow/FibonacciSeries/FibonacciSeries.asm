@@ -98,8 +98,8 @@
 	@R13
 	A=M
 	M=D
-// label MAIN_LOOP_START declaration
-(MAIN_LOOP_START)
+// label $MAIN_LOOP_START declaration
+($MAIN_LOOP_START)
 // push argument 0
 	@0
 	D=A
@@ -111,17 +111,17 @@
 	M=D
 	@SP
 	M=M+1
-// if pop is true, jump to COMPUTE_ELEMENT
+// if pop is true, jump to $COMPUTE_ELEMENT
 	@SP
 	AM=M-1
 	D=M
-	@COMPUTE_ELEMENT
+	@$COMPUTE_ELEMENT
 	D;JNE
-// jump to END_PROGRAM
-	@END_PROGRAM
+// jump to $END_PROGRAM
+	@$END_PROGRAM
 	0;JMP
-// label COMPUTE_ELEMENT declaration
-(COMPUTE_ELEMENT)
+// label $COMPUTE_ELEMENT declaration
+($COMPUTE_ELEMENT)
 // push that 0
 	@0
 	D=A
@@ -232,8 +232,8 @@
 	@R13
 	A=M
 	M=D
-// jump to MAIN_LOOP_START
-	@MAIN_LOOP_START
+// jump to $MAIN_LOOP_START
+	@$MAIN_LOOP_START
 	0;JMP
-// label END_PROGRAM declaration
-(END_PROGRAM)
+// label $END_PROGRAM declaration
+($END_PROGRAM)

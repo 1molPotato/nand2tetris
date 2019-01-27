@@ -123,6 +123,13 @@
 	D=M
 	@R13
 	M=D
+	@5
+	D=A
+	@R13
+	A=M-D
+	D=M
+	@R14
+	M=D
 	@SP
 	A=M-1
 	D=M
@@ -160,10 +167,7 @@
 	D=M
 	@LCL
 	M=D
-	@5
-	D=A
-	@R13
-	A=M-D
+	@R14
 	A=M
 	0;JMP
 // label Main.fibonacci$IF_FALSE declaration
@@ -333,6 +337,13 @@
 	D=M
 	@R13
 	M=D
+	@5
+	D=A
+	@R13
+	A=M-D
+	D=M
+	@R14
+	M=D
 	@SP
 	A=M-1
 	D=M
@@ -370,10 +381,7 @@
 	D=M
 	@LCL
 	M=D
-	@5
-	D=A
-	@R13
-	A=M-D
+	@R14
 	A=M
 	0;JMP
 // funtion Sys.init 0

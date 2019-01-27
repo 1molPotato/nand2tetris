@@ -19,8 +19,8 @@
 	@R13
 	A=M
 	M=D
-// label LOOP_START declaration
-(LOOP_START)
+// label $LOOP_START declaration
+($LOOP_START)
 // push argument 0
 	@0
 	D=A
@@ -114,11 +114,11 @@
 	M=D
 	@SP
 	M=M+1
-// if pop is true, jump to LOOP_START
+// if pop is true, jump to $LOOP_START
 	@SP
 	AM=M-1
 	D=M
-	@LOOP_START
+	@$LOOP_START
 	D;JNE
 // push local 0
 	@0

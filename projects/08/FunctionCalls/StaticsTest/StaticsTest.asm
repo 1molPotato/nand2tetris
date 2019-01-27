@@ -65,17 +65,10 @@
 	@SP
 	M=M+1
 // pop static 0
-	@0
-	D=A
-	@Class1.0
-	D=D+M
-	@R13
-	M=D
 	@SP
 	AM=M-1
 	D=M
-	@R13
-	A=M
+	@Class1.0
 	M=D
 // push argument 1
 	@1
@@ -89,17 +82,10 @@
 	@SP
 	M=M+1
 // pop static 1
-	@1
-	D=A
-	@Class1.1
-	D=D+M
-	@R13
-	M=D
 	@SP
 	AM=M-1
 	D=M
-	@R13
-	A=M
+	@Class1.1
 	M=D
 // push constant 0
 	@0
@@ -113,6 +99,13 @@
 	@LCL
 	D=M
 	@R13
+	M=D
+	@5
+	D=A
+	@R13
+	A=M-D
+	D=M
+	@R14
 	M=D
 	@SP
 	A=M-1
@@ -151,19 +144,13 @@
 	D=M
 	@LCL
 	M=D
-	@5
-	D=A
-	@R13
-	A=M-D
+	@R14
 	A=M
 	0;JMP
 // funtion Class1.get 0
 (Class1.get)
 // push static 0
-	@0
-	D=A
 	@Class1.0
-	A=D+M
 	D=M
 	@SP
 	A=M
@@ -171,10 +158,7 @@
 	@SP
 	M=M+1
 // push static 1
-	@1
-	D=A
 	@Class1.1
-	A=D+M
 	D=M
 	@SP
 	A=M
@@ -195,6 +179,13 @@
 	D=M
 	@R13
 	M=D
+	@5
+	D=A
+	@R13
+	A=M-D
+	D=M
+	@R14
+	M=D
 	@SP
 	A=M-1
 	D=M
@@ -232,10 +223,7 @@
 	D=M
 	@LCL
 	M=D
-	@5
-	D=A
-	@R13
-	A=M-D
+	@R14
 	A=M
 	0;JMP
 // funtion Class2.set 0
@@ -252,17 +240,10 @@
 	@SP
 	M=M+1
 // pop static 0
-	@0
-	D=A
-	@Class2.0
-	D=D+M
-	@R13
-	M=D
 	@SP
 	AM=M-1
 	D=M
-	@R13
-	A=M
+	@Class2.0
 	M=D
 // push argument 1
 	@1
@@ -276,17 +257,10 @@
 	@SP
 	M=M+1
 // pop static 1
-	@1
-	D=A
-	@Class2.1
-	D=D+M
-	@R13
-	M=D
 	@SP
 	AM=M-1
 	D=M
-	@R13
-	A=M
+	@Class2.1
 	M=D
 // push constant 0
 	@0
@@ -300,6 +274,13 @@
 	@LCL
 	D=M
 	@R13
+	M=D
+	@5
+	D=A
+	@R13
+	A=M-D
+	D=M
+	@R14
 	M=D
 	@SP
 	A=M-1
@@ -338,19 +319,13 @@
 	D=M
 	@LCL
 	M=D
-	@5
-	D=A
-	@R13
-	A=M-D
+	@R14
 	A=M
 	0;JMP
 // funtion Class2.get 0
 (Class2.get)
 // push static 0
-	@0
-	D=A
 	@Class2.0
-	A=D+M
 	D=M
 	@SP
 	A=M
@@ -358,10 +333,7 @@
 	@SP
 	M=M+1
 // push static 1
-	@1
-	D=A
 	@Class2.1
-	A=D+M
 	D=M
 	@SP
 	A=M
@@ -382,6 +354,13 @@
 	D=M
 	@R13
 	M=D
+	@5
+	D=A
+	@R13
+	A=M-D
+	D=M
+	@R14
+	M=D
 	@SP
 	A=M-1
 	D=M
@@ -419,10 +398,7 @@
 	D=M
 	@LCL
 	M=D
-	@5
-	D=A
-	@R13
-	A=M-D
+	@R14
 	A=M
 	0;JMP
 // funtion Sys.init 0
