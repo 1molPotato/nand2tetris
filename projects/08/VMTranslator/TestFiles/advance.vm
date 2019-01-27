@@ -1,0 +1,12 @@
+// c_arithmetric
+add
+sub
+not
+// c_pop
+pop local 3 // pop
+// c_push
+push constant 9
+// function
+function mult 2
+    label LOOP
+    return
